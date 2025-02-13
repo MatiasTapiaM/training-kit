@@ -94,6 +94,7 @@ class UserController extends Controller
             'email_verified_at' => now(),
             'password' => Hash::make($password),
             'remember_token' => Str::random(10),
+            'websocket_token' => Str::random(64),
         ]);
         UserRole::create([
             'role_id' => 1,
@@ -285,6 +286,11 @@ class UserController extends Controller
         $refreshTokenRepository = app(RefreshTokenRepository::class);
         $tokenRepository->revokeAccessToken($tokenId);
         $refreshTokenRepository->revokeRefreshTokensByAccessTokenId($tokenId);
+
+        $user = Auth::user();
+        $user->is_online = false;
+        $user->save();
+
         return response()->json(['message' => 'Logged out'], 200);
     }
 

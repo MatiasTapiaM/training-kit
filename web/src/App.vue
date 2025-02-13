@@ -50,6 +50,12 @@ export default {
 					if(!socket.connected) socket.connect();
 					socket.on('connect', () => this.websocket.online = true);
 					socket.on('disconnect', () => this.websocket.online = false);
+					socket.on('user_online', (user) => {
+                    	this.$store.commit('updateUserStatus', { user_id: user.id, is_online: true });
+                	});
+					socket.on('user_offline', (user) => {
+						this.$store.commit('updateUserStatus', { user_id: user.id, is_online: false });
+					});
 				});
 			});
 		}

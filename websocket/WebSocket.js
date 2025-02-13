@@ -39,10 +39,14 @@ io.of('/priv').on('connection', (socket) => {
             const user = response.data.user;
             io.of('/priv').emit('user_online', user);
             console.log('\x1b[32m%s\x1b[0m', '/priv user_online: '+ user.name);
+            axios.post(api_uri + '/users/update_online_status', { user_id: user.id, is_online: true })
+            .catch(err => console.log("Error actualizando is_online:", err.response?.data || err.message));
             socket.on("disconnect", (reason) => {
                 console.log('\x1b[33m%s\x1b[0m', '/priv user_offline: '+ user.name);
                 console.log('\x1b[33m%s\x1b[0m', '/priv disconnection: '+socket.id+' ('+reason+')');
                 io.of('/priv').emit('user_offline', user);
+                axios.post(api_uri + '/users/update_online_status', { user_id: user.id, is_online: false })
+                .catch(err => console.log("Error actualizando is_online:", err.response?.data || err.message));
             });
         })
         .catch(() => {

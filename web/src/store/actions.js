@@ -21,6 +21,13 @@ import api from '@/api.js'
 export default {
 	login(context) {
 		return new Promise((resolve, reject) => {
+			console.log("Datos enviados:", {
+				username: context.state.session.credentials.username,
+				password: context.state.session.credentials.password,
+				grant_type: 'password',
+				client_id: context.state.system.api.client_id,
+				client_secret: context.state.system.api.client_secret,
+			});
 			api.post('oauth/token', {
 				username: context.state.session.credentials.username,
 				password: context.state.session.credentials.password,
@@ -40,6 +47,8 @@ export default {
 			});
 		});
 	},
+
+	
 	
 	saveSocket(context, params) {
 		context.commit('save_socket', { socket: params.socket });
@@ -208,6 +217,7 @@ export default {
 	},
 
 	add_user(context, data) {
+		
 		api.defaults.headers.common['Authorization'] = 'Bearer ' + context.state.session.api.access_token;
 		return new Promise((resolve, reject) => {
 			api.post('api/users', data)

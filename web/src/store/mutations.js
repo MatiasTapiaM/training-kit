@@ -57,6 +57,12 @@ export default {
 		state.session.user.name = data.name;
 		state.session.user.email = data.email;
 	},
+	updateUserStatus(state, { user_id, is_online }) {
+		const user = state.users.items.find(u => u.id === user_id);
+		if (user) {
+			user.is_online = is_online;
+		}
+	},
 	screen(state, data) {
 		state.system.settings.screen.width = data.width;
 		state.system.settings.screen.height = data.height;
@@ -125,4 +131,5 @@ export default {
 	AddClientModal(state, data) {
 		state.modals.AddClientModal = data
 	},
+
 }

@@ -270,8 +270,15 @@ export default {
 										<button class="btn btn-light btn-sm py-0 px-1 fs-09 ms-1 text-secondary" @click="enableNameForm(item)" :class="{ 'btn-dark text-white' : ui_theme === 'dark' }">
 											<i class="fas fa-pen-to-square"></i>
 										</button>
+										
+
+
+
+
+
 									</p>
 								</div>
+								
 								<div v-if="loaders.email.active === true && loaders.email.id === item.id">
 									<div class="row">
 										<div class="col-auto">
@@ -287,6 +294,7 @@ export default {
 										</div>
 									</div>
 								</div>
+								
 								<div v-else>
 									<p class="mb-0 fs-09">
 										<del v-if="item.blocked && item.blocked === true">{{ item.email }}</del><span v-else>{{ item.email }}</span>
@@ -295,6 +303,11 @@ export default {
 										</button>
 									</p>
 								</div>
+								
+							</div>
+							<div class="col col-auto">
+								<span v-if="item.is_online" class="badge text-bg-success mt-3">Conectado</span>
+								<span v-else class="badge text-bg-danger mt-3">Desconectado</span>
 							</div>
 							<div class="col col-auto text-end">
 								<div class="dropdown">

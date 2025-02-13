@@ -30,6 +30,18 @@ class WebSocketController extends Controller
         if (!$request->filled('token')) return response()->json(['message' => 'Missing "token"'], 400);
         $user = User::where('websocket_token', $request->token)->first();
         if (!isset($user->id)) return response()->json(['message' => 'Invalid'], 404);
+        $user->is_online = true;
+        $user->save();
         return response()->json([ 'user' => $user ], 200);
+    }
+
+    public function logout(Request $request)
+    {
+        if (!$request->filled('token')) return response()->json(['message' => 'Missing "token"'], 400);
+        $user = User::where('websocket_token', $request->token)->first();
+        if (!isset($user->id)) return response()->json(['message' => 'Invalid'], 404);
+        $user->is_online = false;
+        $user->save();
+        return response()->json(['message' => 'User logged out'], 200);
     }
 }
